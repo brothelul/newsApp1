@@ -10,7 +10,8 @@ import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
 import android.widget.RelativeLayout;
 
-import news.brotherlu.com.newsapp.activity.GuidActivity;
+import news.brotherlu.com.newsapp.activity.ContentActivity;
+import news.brotherlu.com.newsapp.activity.GuideActivity;
 import news.brotherlu.com.newsapp.utils.CacheUtils;
 
 public class MainActivity extends AppCompatActivity {
@@ -55,16 +56,16 @@ public class MainActivity extends AppCompatActivity {
         //动画结束
         @Override
         public void onAnimationEnd(Animation animation) {
-            boolean hasStartedMain = CacheUtils.hasStartedMain(MainActivity.this,STARTED_MAIN);
+            boolean hasStartedMain = CacheUtils.getStartedMain(MainActivity.this,STARTED_MAIN);
+            Intent intent;
             //如果进入过就不再重复进入
             if (hasStartedMain){
-
+                intent = new Intent(MainActivity.this, ContentActivity.class);
             }else{
                 //创建intent，开启新页面
-                Intent intent = new Intent(MainActivity.this,GuidActivity.class);
-                startActivity(intent);
+                intent= new Intent(MainActivity.this,GuideActivity.class);
             }
-
+            startActivity(intent);
             //关闭主页面
             finish();
 //            Toast.makeText(MainActivity.this,"动画播放完毕",Toast.LENGTH_SHORT).show();

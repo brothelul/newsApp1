@@ -2,11 +2,9 @@ package news.brotherlu.com.newsapp.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.opengl.Visibility;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -23,14 +21,12 @@ import news.brotherlu.com.newsapp.R;
 import news.brotherlu.com.newsapp.utils.CacheUtils;
 import news.brotherlu.com.newsapp.utils.DensityUtil;
 
-import static android.content.ContentValues.TAG;
-
 /**
  * Created by Administrator on 2017/9/14.
  */
-public class GuidActivity extends Activity{
+public class GuideActivity extends Activity{
 
-    private static final String TAG = GuidActivity.class.getName();
+    private static final String TAG = GuideActivity.class.getName();
     private ViewPager guidPager;
     private Button guidButton;
     private LinearLayout pointGroup;
@@ -43,7 +39,7 @@ public class GuidActivity extends Activity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_guid);
+        setContentView(R.layout.activity_guide);
         //初始化组件
         initCompants();
         guidPager.setAdapter(new MyPageAdapter());
@@ -69,7 +65,7 @@ public class GuidActivity extends Activity{
                 R.drawable.guide_3
         };
         //获取10dp的px
-        legthDp = DensityUtil.dp2px(GuidActivity.this,10);
+        legthDp = DensityUtil.dp2px(GuideActivity.this,10);
 
         for(int i = 0; i < pointIds.length; i++){
             ImageView imageView = new ImageView(this);
@@ -193,9 +189,9 @@ public class GuidActivity extends Activity{
         @Override
         public void onClick(View view) {
             //保存已经打开过的记录
-            CacheUtils.putHasStartMain(GuidActivity.this,MainActivity.STARTED_MAIN,true);
+            CacheUtils.putHasStartMain(GuideActivity.this,MainActivity.STARTED_MAIN,true);
             //跳转到主页面
-            Intent intent = new Intent(GuidActivity.this,ContentActivity.class);
+            Intent intent = new Intent(GuideActivity.this,ContentActivity.class);
             //打开新页面
             startActivity(intent);
             //关闭该页面
