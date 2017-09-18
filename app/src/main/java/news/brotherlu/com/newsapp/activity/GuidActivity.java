@@ -10,6 +10,7 @@ import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -144,7 +145,7 @@ public class GuidActivity extends Activity{
          */
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) pointGroup.getLayoutParams();
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) redPoint.getLayoutParams();
             //计算到屏幕左边的长度
             int left = position*leftMax + (int) (leftMax*positionOffset);
             //设置距离左边的长度
