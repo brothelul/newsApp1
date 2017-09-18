@@ -6,6 +6,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -24,15 +25,21 @@ public class GuidActivity extends Activity{
     private Button guidButton;
     private LinearLayout pointGroup;
     private List<ImageView> guidViews;
+    private ImageView redPoint;
+    //灰点的间距
+    private int leftMax;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guid);
-
+        //初始化组件
         initCompants();
-
         guidPager.setAdapter(new MyPageAdapter());
+        //监听红点的位置
+        redPoint.getViewTreeObserver().addOnGlobalLayoutListener(new MyOnGlobalLayoutListener());
+        //viewpager的监听器，用于监听页面位置的变化
+        guidPager.addOnPageChangeListener(new MyOnPageChangeListener());
     }
 
     //初始化各个组件
@@ -40,6 +47,7 @@ public class GuidActivity extends Activity{
         guidPager = findViewById(R.id.viewpager);
         guidButton = findViewById(R.id.guid_btn);
         pointGroup = findViewById(R.id.point_group);
+        redPoint = findViewById(R.id.red_point);
         guidViews = new ArrayList<>();
 
         int[] pointIds = new int[]{
@@ -65,6 +73,20 @@ public class GuidActivity extends Activity{
             point.setLayoutParams(params);
 
             pointGroup.addView(point);
+        }
+    }
+
+    /**
+     * 用于监听全局的layout
+     */
+    class MyOnGlobalLayoutListener implements ViewTreeObserver.OnGlobalLayoutListener{
+
+        @Override
+        public void onGlobalLayout() {
+            redPoint.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+
+            //获取第一个灰点到第0个的间距
+            leftMax = pointGroup.getChildAt(1).getLeft() - pointGroup.getChildAt(0).getLeft();
         }
     }
 
@@ -109,6 +131,35 @@ public class GuidActivity extends Activity{
         public void destroyItem(ViewGroup container, int position, Object object) {
 //            super.destroyItem(container, position, object);
             container.removeView((View) object);
+        }
+    }
+
+    //用于监听页面的变化
+    class MyOnPageChangeListener implements ViewPager.OnPageChangeListener {
+        /**
+         *  页面滚动时
+         * @param position  位置
+         * @param positionOffset 占屏幕百分比
+         * @param positionOffsetPixels 占屏幕的像素
+         */
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) pointGroup.getLayoutParams();
+            //计算到屏幕左边的长度
+            int left = position*leftMax + (int) (leftMax*positionOffset);
+            //设置距离左边的长度
+            params.leftMargin = left;
+            redPoint.setLayoutParams(params);
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
         }
     }
 }
