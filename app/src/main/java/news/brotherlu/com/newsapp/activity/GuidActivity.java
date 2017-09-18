@@ -1,9 +1,12 @@
 package news.brotherlu.com.newsapp.activity;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -15,13 +18,19 @@ import android.widget.RelativeLayout;
 import java.util.ArrayList;
 import java.util.List;
 
+import news.brotherlu.com.newsapp.MainActivity;
 import news.brotherlu.com.newsapp.R;
+import news.brotherlu.com.newsapp.utils.CacheUtils;
+import news.brotherlu.com.newsapp.utils.DensityUtil;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by Administrator on 2017/9/14.
  */
 public class GuidActivity extends Activity{
 
+    private static final String TAG = GuidActivity.class.getName();
     private ViewPager guidPager;
     private Button guidButton;
     private LinearLayout pointGroup;
@@ -29,6 +38,7 @@ public class GuidActivity extends Activity{
     private ImageView redPoint;
     //灰点的间距
     private int leftMax;
+    private int legthDp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +51,8 @@ public class GuidActivity extends Activity{
         redPoint.getViewTreeObserver().addOnGlobalLayoutListener(new MyOnGlobalLayoutListener());
         //viewpager的监听器，用于监听页面位置的变化
         guidPager.addOnPageChangeListener(new MyOnPageChangeListener());
+        //添加button的点击事件
+        guidButton.setOnClickListener(new MyOnClickListener());
     }
 
     //初始化各个组件
@@ -56,6 +68,8 @@ public class GuidActivity extends Activity{
                 R.drawable.guide_2,
                 R.drawable.guide_3
         };
+        //获取10dp的px
+        legthDp = DensityUtil.dp2px(GuidActivity.this,10);
 
         for(int i = 0; i < pointIds.length; i++){
             ImageView imageView = new ImageView(this);
@@ -65,8 +79,7 @@ public class GuidActivity extends Activity{
             //添加点
             ImageView point = new ImageView(this);
             point.setBackgroundResource(R.drawable.point_gray);
-            // TODO: 2017/9/14 10为像素，即sp 不会适配屏幕，后续应当做适配 
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(10,10);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(legthDp,legthDp);
             //如果不是第一个则与前面一个单位距离10
             if (i != 0){
                 params.leftMargin = 10;
@@ -88,6 +101,8 @@ public class GuidActivity extends Activity{
 
             //获取第一个灰点到第0个的间距
             leftMax = pointGroup.getChildAt(1).getLeft() - pointGroup.getChildAt(0).getLeft();
+
+//            Log.d(TAG,"left:"+leftMax);
         }
     }
 
@@ -151,16 +166,40 @@ public class GuidActivity extends Activity{
             //设置距离左边的长度
             params.leftMargin = left;
             redPoint.setLayoutParams(params);
+
+//            Log.d(TAG,"positionOffset:"+positionOffset);
         }
 
         @Override
         public void onPageSelected(int position) {
-
+            //如果是最后一个页面便显示button，否则不显示
+            if (position == (guidViews.size()-1)){
+                guidButton.setVisibility(View.VISIBLE);
+            }else{
+                guidButton.setVisibility(View.GONE);
+            }
         }
 
         @Override
         public void onPageScrollStateChanged(int state) {
 
+        }
+    }
+
+    /**
+     *     button的点击事件，点击进入主页面并且保存已经打开引导页面到缓存
+     */
+    class MyOnClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+            //保存已经打开过的记录
+            CacheUtils.putHasStartMain(GuidActivity.this,MainActivity.STARTED_MAIN,true);
+            //跳转到主页面
+            Intent intent = new Intent(GuidActivity.this,ContentActivity.class);
+            //打开新页面
+            startActivity(intent);
+            //关闭该页面
+            finish();
         }
     }
 }
