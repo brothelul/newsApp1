@@ -1,5 +1,6 @@
 package news.brotherlu.com.newsapp;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,7 +15,7 @@ import news.brotherlu.com.newsapp.activity.ContentActivity;
 import news.brotherlu.com.newsapp.activity.GuideActivity;
 import news.brotherlu.com.newsapp.utils.CacheUtils;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 
     //是否进入过主页面
     public static final String STARTED_MAIN = "started_main";

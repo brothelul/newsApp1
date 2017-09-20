@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/content_viewpager"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <RadioGroup
+        android:id="@+id/radiogroup"
+        android:background="@drawable/bottom_tab_bg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_home"
+            android:drawableTop="@drawable/rb_home_backgroud_selector"
+            android:text="@string/home"
+            style="@style/content_btn_style"
+            />
+        <RadioButton
+            android:id="@+id/rb_newscenter"
+            android:drawableTop="@drawable/rb_newscenter_backgroud_selector"
+            android:text="@string/news"
+            style="@style/content_btn_style"
+            />
+        <RadioButton
+            android:id="@+id/rb_smartservice"
+            android:drawableTop="@drawable/rb_smartservice_backgroud_selector"
+            android:text="@string/smartservice"
+            style="@style/content_btn_style"
+            />
+        <RadioButton
+            android:id="@+id/rb_govaffair"
+            android:drawableTop="@drawable/rb_govaffair_backgroud_selector"
+            android:text="@string/govaffair"
+            style="@style/content_btn_style"
+            />
+        <RadioButton
+            android:id="@+id/rb_setting"
+            android:drawableTop="@drawable/rb_setting_backgroud_selector"
+            android:text="@string/setting"
+            style="@style/content_btn_style"
+            />
+
+    </RadioGroup>
+
+</LinearLayout>

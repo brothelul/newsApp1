@@ -1,10 +1,13 @@
 package news.brotherlu.com.newsapp.fragment;
 
 import android.graphics.Color;
+import android.support.v4.view.ViewPager;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import news.brotherlu.com.newsapp.R;
 import news.brotherlu.com.newsapp.fragment.base.BaseFragment;
 
 /**
@@ -13,20 +16,20 @@ import news.brotherlu.com.newsapp.fragment.base.BaseFragment;
 
 public class MainContentFragment extends BaseFragment {
 
-    private TextView textView;
+    private ViewPager viewPager;
+    private RadioGroup radioGroup;
 
     @Override
     public View initView() {
-        textView = new TextView(context);
-        textView.setTextSize(20);
-        textView.setGravity(Gravity.CENTER);
-        textView.setTextColor(Color.RED);
-        return textView;
+        View view = View.inflate(context, R.layout.content_fragment,null);
+        viewPager = view.findViewById(R.id.content_viewpager);
+        radioGroup = view.findViewById(R.id.radiogroup);
+        return view;
     }
 
     @Override
     public void initData() {
         super.initData();
-        textView.setText("主页面");
+        radioGroup.check(R.id.rb_home);
     }
 }
