@@ -29,7 +29,7 @@ public class ContentActivity extends SlidingActivity {
         //设置显示模式
         slidingMenu.setMode(SlidingMenu.LEFT);
         //设置滑动的位置
-        slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+        slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
         //设置占据主页面的宽度
         slidingMenu.setBehindOffset(DensityUtil.dp2px(ContentActivity.this,200));
         //初始化Fragment
