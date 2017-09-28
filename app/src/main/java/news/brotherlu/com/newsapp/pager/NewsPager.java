@@ -2,15 +2,24 @@ package news.brotherlu.com.newsapp.pager;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.transition.Visibility;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.alibaba.fastjson.JSON;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
+import java.util.List;
+
+import news.brotherlu.com.newsapp.activity.ContentActivity;
+import news.brotherlu.com.newsapp.domin.NewsData;
+import news.brotherlu.com.newsapp.fragment.LeftMenuFragment;
 import news.brotherlu.com.newsapp.pager.base.BasePager;
 
 /**
@@ -36,6 +45,8 @@ public class NewsPager extends BasePager {
         content.addView(textView);
         textView.setText("新闻内容");
 
+        //设置button为可见的
+        button.setVisibility(View.VISIBLE);
         getDataFromNet();
     }
 
@@ -43,11 +54,12 @@ public class NewsPager extends BasePager {
      * 请求数据不能放在主线程中，会阻塞程序，此处xutils已经封装
      */
     public void getDataFromNet(){
-        RequestParams params = new RequestParams("http://192.168.1.6:8080/AroundYou/user/loadCategory.do");
+        RequestParams params = new RequestParams("http://192.168.1.6:8080/AroundYou/web_home/static/api/news/categories.json");
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 Log.i(NewsPager.class.getName(),result);
+                processData(result);
             }
 
             @Override
@@ -66,5 +78,18 @@ public class NewsPager extends BasePager {
                 Log.i(NewsPager.class.getName(),"请求完成");
             }
         });
+    }
+
+    private void processData(String json) {
+        NewsData newsData = parseJson(json);
+        Log.i(NewsPager.class.getName(),"解析JSON成功>>>>>>>>>>>>>>>>>>>"+newsData.getData().get(0).getTitle());
+        //将解析数据传输给左侧菜单栏
+        ContentActivity contentActivity = (ContentActivity) context;
+        LeftMenuFragment leftMenuFragment = contentActivity.findLeftMenuFragment();
+        leftMenuFragment.setData(newsData.getData());
+    }
+
+    private NewsData parseJson(String json) {
+        return JSON.parseObject(json,NewsData.class);
     }
 }

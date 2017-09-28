@@ -4,7 +4,7 @@
     android:id="@+id/activity_content_left"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorAccent"
+    android:background="#000000"
     tools:context="news.brotherlu.com.newsapp.activity.ContentLeftActivity">
 
 </FrameLayout>

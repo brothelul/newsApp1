@@ -7,6 +7,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import news.brotherlu.com.newsapp.R;
+import news.brotherlu.com.newsapp.activity.ContentActivity;
 
 /**
  * Created by Administrator on 2017/9/21.
@@ -39,6 +40,15 @@ public class BasePager {
         title = view.findViewById(R.id.base_title_desc);
         button = view.findViewById(R.id.base_title_image);
         content = view.findViewById(R.id.base_content);
+
+        //为button设置点击事件，点击打开右边菜单栏
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ContentActivity contentActivity = (ContentActivity) context;
+                contentActivity.getSlidingMenu().toggle();//如果是开着就关闭，若是关着就打开
+            }
+        });
         return view;
     }
 

@@ -47,4 +47,10 @@ public class ContentActivity extends SlidingActivity {
         //提交事务
         ft.commit();
     }
+
+    public LeftMenuFragment findLeftMenuFragment() {
+        FragmentManager fm = getSupportFragmentManager();
+        LeftMenuFragment leftMenuFragment = (LeftMenuFragment) fm.findFragmentByTag(LEFT_MENU);
+        return leftMenuFragment;
+    }
 }
