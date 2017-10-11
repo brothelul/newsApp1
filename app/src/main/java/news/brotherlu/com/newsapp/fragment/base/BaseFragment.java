@@ -46,4 +46,6 @@ public abstract class BaseFragment extends Fragment {
      * 子类初始化自己的数据，若有，则直接初始化，没有可以从Web获取
      */
     protected void initData(){}
+
+
 }

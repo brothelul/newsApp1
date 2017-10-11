@@ -17,6 +17,7 @@ import news.brotherlu.com.newsapp.R;
 import news.brotherlu.com.newsapp.activity.ContentActivity;
 import news.brotherlu.com.newsapp.domin.NewsData;
 import news.brotherlu.com.newsapp.fragment.base.BaseFragment;
+import news.brotherlu.com.newsapp.pager.NewsPager;
 import news.brotherlu.com.newsapp.utils.DensityUtil;
 
 /**
@@ -49,9 +50,17 @@ public class LeftMenuFragment extends BaseFragment {
                 ContentActivity contentActivity = (ContentActivity) context;
                 contentActivity.getSlidingMenu().toggle();//如果是开着就关闭，若是关着就打开
                 //切换到对应的详情页
+                switchDetailPager(prePostion);
             }
         });
         return listView;
+    }
+
+    private void switchDetailPager(int prePostion) {
+        ContentActivity contentActivity = (ContentActivity) context;
+        MainContentFragment contentFragment = contentActivity.getMainContentFragment();
+        NewsPager newsPager = contentFragment.getNewsPager();
+        newsPager.swichPager(prePostion);
     }
 
     @Override
@@ -66,6 +75,7 @@ public class LeftMenuFragment extends BaseFragment {
         }
         leftMenuFragmentAdapter = new LeftMenuFragmentAdapter();
         listView.setAdapter(leftMenuFragmentAdapter);
+        switchDetailPager(prePostion);
     }
 
     class LeftMenuFragmentAdapter extends BaseAdapter{
