@@ -23,7 +23,17 @@ public class CacheUtils {
      * @param b
      */
     public static void putHasStartMain(Context context, String startedMain, boolean b) {
-        SharedPreferences sp = context.getSharedPreferences(startedMain,Context.MODE_PRIVATE);
-        sp.edit().putBoolean(BROTHERLU,b).commit();
+        SharedPreferences sp = context.getSharedPreferences(BROTHERLU,Context.MODE_PRIVATE);
+        sp.edit().putBoolean(startedMain,b).commit();
+    }
+
+    public static void putString(Context context, String key, String result) {
+        SharedPreferences sp = context.getSharedPreferences(BROTHERLU,context.MODE_PRIVATE);
+        sp.edit().putString(key,result).commit();
+    }
+
+    public static String getString(Context context, String key) {
+        SharedPreferences sp = context.getSharedPreferences(BROTHERLU,Context.MODE_PRIVATE);
+        return  sp.getString(key,"");
     }
 }

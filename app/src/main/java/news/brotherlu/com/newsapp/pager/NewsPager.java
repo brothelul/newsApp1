@@ -2,6 +2,7 @@ package news.brotherlu.com.newsapp.pager;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import news.brotherlu.com.newsapp.activity.ContentActivity;
+import news.brotherlu.com.newsapp.constant.Constants;
 import news.brotherlu.com.newsapp.domin.NewsData;
 import news.brotherlu.com.newsapp.fragment.LeftMenuFragment;
 import news.brotherlu.com.newsapp.menupager.InteracDetailPager;
@@ -26,6 +28,7 @@ import news.brotherlu.com.newsapp.menupager.PhotosDetailPager;
 import news.brotherlu.com.newsapp.menupager.TopicDetailPager;
 import news.brotherlu.com.newsapp.menupager.base.BaseMenuPager;
 import news.brotherlu.com.newsapp.pager.base.BasePager;
+import news.brotherlu.com.newsapp.utils.CacheUtils;
 
 /**
  * Created by Administrator on 2017/9/21.
@@ -55,18 +58,25 @@ public class NewsPager extends BasePager {
 
         //设置button为可见的
         button.setVisibility(View.VISIBLE);
-        getDataFromNet();
+        String result = CacheUtils.getString(context, Constants.URL);
+        if (TextUtils.isEmpty(result)){
+            getDataFromNet();
+        }else {
+            processData(result);
+        }
     }
 
     /**
      * 请求数据不能放在主线程中，会阻塞程序，此处xutils已经封装
      */
     public void getDataFromNet(){
-        RequestParams params = new RequestParams("http://192.168.191.1:8080/AroundYou/web_home/static/api/news/categories.json");
+        RequestParams params = new RequestParams(Constants.URL);
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 Log.i(NewsPager.class.getName(),result);
+                //第一次请求数据时将数据放入缓存
+                CacheUtils.putString(context,Constants.URL,result);
                 processData(result);
             }
 
